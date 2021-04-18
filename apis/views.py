@@ -23,9 +23,19 @@ from django.core.mail import EmailMessage
 from rest_framework.authentication import BasicAuthentication
 
 
-
-
+import threading
 # Create your views here.
+
+class EmailThread(threading.Thread):
+    
+    def __init__(self,email):
+        self.email=email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
+
+
 
 class login(CreateAPIView):
     authentication_classes=(BasicAuthentication,)
@@ -99,7 +109,7 @@ class Register(CreateAPIView):
                     'noreply@fin_serv.com',
                     [v_email],
                 )
-                email.send(fail_silently=False)
+                EmailThread(email).start()
                 print('saved successfully')
                 return Response({'message': 'Registration Successful', 'Guide': 'Please verifiy your email for actiavtion link'})
         else:
@@ -156,7 +166,7 @@ class password_reset(CreateAPIView):
                 'noreply@fin_serv.com',
                 [v_email],
             )
-            email.send(fail_silently=False)
+            EmailThread(email).start()
 
             return Response({'message':'Password Reset Mail Send','guide':'Verify your Mail id password reset link'})
 
