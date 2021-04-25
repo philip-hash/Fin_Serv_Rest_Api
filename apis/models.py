@@ -59,20 +59,18 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 class LargeCap(models.Model):
-    name = models.TextField(blank=True,primary_key=True)
-    prod_rate = models.FloatField(blank=True, null=True)
-    debt_rate = models.FloatField(blank=True, null=True)
-    cred_rate = models.FloatField(blank=True, null=True)
-    liq_rate = models.FloatField(blank=True, null=True)
-    grow_rate = models.FloatField(blank=True, null=True)
-    oper_rate = models.FloatField(blank=True, null=True)
-    sent_rate = models.FloatField(blank=True, null=True)
-    vol_strength = models.FloatField(blank=True, null=True)
-    nd_vol_prob = models.FloatField(blank=True, null=True)
-    nw_vol_prob = models.FloatField(blank=True, null=True)
-    pa_prob = models.FloatField(blank=True, null=True)
-    bull_rev_prob = models.FloatField(blank=True, null=True)
-    bear_rev_prob = models.FloatField(blank=True, null=True)
+    date = models.DateTimeField(blank=True, null=True)
+    tick = models.TextField(blank=True,primary_key=True)
+    close = models.FloatField(blank=True, null=True)
+    price_action_probability = models.FloatField(blank=True, null=True)
+    reversal_probability = models.FloatField(blank=True, null=True)
+    volitility_probability = models.FloatField(blank=True, null=True)
+    sentiment_strength = models.FloatField(blank=True, null=True)
+    liquidity_rating = models.FloatField(db_column='Liquidity_rating', blank=True, null=True)  # Field name made lowercase.
+    debt_rating = models.FloatField(db_column='Debt_rating', blank=True, null=True)  # Field name made lowercase.
+    productivity_rating = models.FloatField(db_column='Productivity_rating', blank=True, null=True)  # Field name made lowercase.
+    growth_rating = models.FloatField(db_column='Growth_rating', blank=True, null=True)  # Field name made lowercase.
+    market_rating = models.FloatField(db_column='Market_rating', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False

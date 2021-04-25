@@ -5,7 +5,7 @@ from rest_framework.response import Response
 
 class stock_list(ListAPIView):
     def get(self,request):
-        lc=models.LargeCap.objects.values_list('name',flat=True) 
+        lc=models.LargeCap.objects.values_list('tick',flat=True) 
         return Response(lc)
 
 #models.LargeCap.objects.filter(name='reliance').values('cp')
@@ -13,7 +13,7 @@ class stock_list(ListAPIView):
 class stock_details(ListAPIView):
     def get(self,request,stock):
         try:
-            lc=models.LargeCap.objects.filter(name=stock).values()
+            lc=models.LargeCap.objects.filter(tick=stock).values()
             if request.user.is_authenticated: 
                 if not lc:        
                     return Response({'message':'Company is not available','guide':'Input the company name which are available'})
@@ -33,7 +33,7 @@ class matrix_list(ListAPIView):
 class matrix_details(ListAPIView):
     def get(self,request,matrix):
         try:
-            lc=models.LargeCap.objects.values('name', matrix)
+            lc=models.LargeCap.objects.values('tick','close', matrix)
             if request.user.is_authenticated: 
                 if not lc:        
                     return Response({'message':'Matrix is not available','guide':'Fetch with listed matrix name which are available'})
